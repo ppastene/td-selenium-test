@@ -1,0 +1,70 @@
+package com.example;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+public class FirefoxSeleniumTest {
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    @BeforeEach
+    public void setUp() {
+        // Configura GeckoDriver para Firefox
+        System.setProperty("webdriver.gecko.driver", "E:/Users/geckodriver-v0.35.0-win64/geckodriver.exe");
+
+        FirefoxOptions options = new FirefoxOptions();
+        // Puedes añadir argumentos según sea necesario
+        // options.addArguments("--headless"); // Descomentar para ejecutar en modo
+        // headless
+
+        driver = new FirefoxDriver(options);
+        // Inicializa WebDriverWait con una duración de espera predeterminada
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
+
+    @Test
+    public void testGoogleSearch() {
+        try {
+            // Navega a Google
+            driver.get("https://www.google.com");
+
+            // Espera hasta que el campo de búsqueda esté presente
+            WebElement searchBox = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("q")));
+
+            // Escribe "Selenium" y presiona Enter
+            searchBox.sendKeys("Selenium");
+            searchBox.submit();
+
+            // Espera que los resultados aparezcan
+            WebElement results = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("search")));
+
+            // Validaciones mejoradas
+            assertTrue(results.isDisplayed(), "El contenedor de resultados no está visible.");
+            assertTrue(results.getText().toLowerCase().contains("selenium"), "Los resultados no contienen 'Selenium'.");
+
+        } catch (Exception e) {
+            fail("Error durante la prueba: " + e.getMessage());
+        }
+    }
+
+    @AfterEach
+    public void tearDown() {
+        // Cierra el navegador
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
