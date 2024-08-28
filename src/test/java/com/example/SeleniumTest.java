@@ -32,6 +32,7 @@ public class SeleniumTest {
         options.addArguments("--disable-gpu"); // A veces necesario para sistemas Linux
         options.addArguments("--no-sandbox"); // Recomendado para entornos CI/CD
         options.addArguments("--disable-dev-shm-usage"); // Soluciona problemas de memoria en contenedores
+        options.addArguments("--headless=new");
 
         driver = new ChromeDriver(options);
     }
