@@ -21,7 +21,7 @@ public class SeleniumTest {
     @BeforeEach
     public void setUp() {
         // Configura ChromeDriver
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver/chromedriver");
         ChromeOptions options = new ChromeOptions();
         // Quita el modo headless por ahora para ver si resuelve el problema
         // options.addArguments("--headless");
