@@ -20,8 +20,17 @@ public class SeleniumTest {
 
     @BeforeEach
     public void setUp() {
-        // Configura ChromeDriver
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver/chromedriver");
+        // Identifica el sistema operativo
+        String os = System.getProperty("os.name").toLowerCase();
+
+        // Configura ChromeDriver según el sistema operativo
+        if (os.contains("win")) {
+            // Si es Windows, usa la ruta correspondiente
+            System.setProperty("webdriver.chrome.driver", "C:/chromedriver-win64/chromedriver.exe");
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("mac")) {
+            // Si es Linux o macOS, usa la ruta correspondiente (generalmente se usa en Docker)
+            System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver/chromedriver");
+        }
         ChromeOptions options = new ChromeOptions();
         // Quita el modo headless por ahora para ver si resuelve el problema
         // options.addArguments("--headless");
