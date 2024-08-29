@@ -55,6 +55,21 @@ public class SeleniumTest {
         assertTrue(results.getText().contains("Selenium"));
     }
 
+    @Test
+    public void testBioBioChileLink() {
+        // Navega a BioBioChile
+        driver.get("https://www.biobiochile.cl");
+
+        // Espera hasta que el enlace esté presente
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement linkElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#header > nav.navbar-bottom > div.menu-container > div > a")));
+        
+        // Verifica que el atributo href sea igual a la URL esperada
+        String expectedHref = "https://www.biobiochile.cl/";
+        String actualHref = linkElement.getAttribute("href");
+        assertTrue(expectedHref.equals(actualHref), "El href del enlace no coincide con la URL esperada.");
+    }
+
     @AfterEach
     public void tearDown() {
         // Cierra el navegador
